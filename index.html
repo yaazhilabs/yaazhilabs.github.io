@@ -1,0 +1,357 @@
+<html lang="en"><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yaazhi Labs - New Generation Application</title>
+    <meta name="description" content="Yaazhi Labs builds fun, collectible trading card apps for actors and sports. Discover ActorToks and SportsToks.">
+    <link rel="icon" type="image/png" href="logo.png">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0A0A14;
+            color: #E0E0E0;
+            line-height: 1.6;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 70px 20px 60px;
+            background: linear-gradient(135deg, #0A0A14 0%, #1A1A2E 50%, #16213E 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 40%, rgba(212, 168, 67, 0.06) 0%, transparent 50%);
+            pointer-events: none;
+        }
+        .hero-logo {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 20px;
+            position: relative;
+            filter: drop-shadow(0 4px 20px rgba(212, 168, 67, 0.3));
+        }
+        .hero h1 {
+            font-size: 3em;
+            color: #FFFFFF;
+            margin-bottom: 8px;
+            letter-spacing: 3px;
+            position: relative;
+        }
+        .hero-divider {
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #D4A843, transparent);
+            margin: 0 auto 20px;
+        }
+        .hero .tagline {
+            font-size: 1.3em;
+            color: #D4A843;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+        .hero .subtitle {
+            font-size: 1.1em;
+            color: #888888;
+            margin-bottom: 50px;
+        }
+
+        /* ===== APP CARDS ===== */
+        .apps {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+        .apps h2 {
+            text-align: center;
+            font-size: 2em;
+            color: #FFFFFF;
+            margin-bottom: 50px;
+        }
+        .app-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        .app-card {
+            border-radius: 16px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-decoration: none;
+            display: block;
+            position: relative;
+            overflow: hidden;
+        }
+        .app-card:hover {
+            transform: translateY(-6px);
+        }
+
+        /* ActorToks card */
+        .app-card.actortoks {
+            background: linear-gradient(135deg, #1A1A2E 0%, #1E1500 100%);
+            border: 1px solid #3D2E00;
+            box-shadow: 0 4px 30px rgba(255, 215, 0, 0.08);
+        }
+        .app-card.actortoks:hover {
+            box-shadow: 0 8px 40px rgba(255, 215, 0, 0.15);
+        }
+        .app-card.actortoks .app-icon { font-size: 3em; margin-bottom: 20px; }
+        .app-card.actortoks h3 {
+            font-size: 1.8em;
+            color: #FFD700;
+            margin-bottom: 8px;
+        }
+        .app-card.actortoks .app-stat {
+            color: #FFA500;
+            font-size: 1.05em;
+            margin-bottom: 16px;
+        }
+        .app-card.actortoks .app-desc {
+            color: #AAAAAA;
+            font-size: 0.95em;
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+        .app-card.actortoks .app-btn {
+            display: inline-block;
+            background: #FFD700;
+            color: #0A0A14;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.95em;
+            text-decoration: none;
+        }
+        .app-card.actortoks .app-btn:hover {
+            background: #FFA500;
+        }
+
+        /* SportsToks card */
+        .app-card.sportstoks {
+            background: linear-gradient(135deg, #1A1A2E 0%, #1A0E00 100%);
+            border: 1px solid #3D1E00;
+            box-shadow: 0 4px 30px rgba(255, 107, 0, 0.08);
+        }
+        .app-card.sportstoks:hover {
+            box-shadow: 0 8px 40px rgba(255, 107, 0, 0.15);
+        }
+        .app-card.sportstoks .app-icon { font-size: 3em; margin-bottom: 20px; }
+        .app-card.sportstoks h3 {
+            font-size: 1.8em;
+            color: #FF6B00;
+            margin-bottom: 8px;
+        }
+        .app-card.sportstoks .app-stat {
+            color: #FF8C3A;
+            font-size: 1.05em;
+            margin-bottom: 16px;
+        }
+        .app-card.sportstoks .app-desc {
+            color: #AAAAAA;
+            font-size: 0.95em;
+            margin-bottom: 24px;
+            line-height: 1.7;
+        }
+        .app-card.sportstoks .app-btn {
+            display: inline-block;
+            background: #FF6B00;
+            color: #FFFFFF;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.95em;
+            text-decoration: none;
+        }
+        .app-card.sportstoks .app-btn:hover {
+            background: #FF8C3A;
+        }
+
+        /* ===== FEATURES STRIP ===== */
+        .features-strip {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 0 20px 80px;
+        }
+        .features-strip h2 {
+            text-align: center;
+            font-size: 2em;
+            color: #FFFFFF;
+            margin-bottom: 40px;
+        }
+        .feature-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+        }
+        .feature-item {
+            text-align: center;
+            padding: 24px 16px;
+            background: #12121E;
+            border-radius: 12px;
+            border: 1px solid #1E1E30;
+        }
+        .feature-item .icon {
+            font-size: 2em;
+            margin-bottom: 12px;
+        }
+        .feature-item h4 {
+            color: #DDDDDD;
+            font-size: 1em;
+            margin-bottom: 6px;
+        }
+        .feature-item p {
+            color: #888888;
+            font-size: 0.85em;
+        }
+
+        /* ===== ABOUT ===== */
+        .about {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .about h2 {
+            font-size: 2em;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+        }
+        .about p {
+            color: #BBBBBB;
+            font-size: 1.1em;
+            line-height: 1.8;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            border-top: 1px solid #1A1A2E;
+            color: #666;
+            font-size: 0.9em;
+        }
+        footer .footer-logo {
+            width: 50px;
+            height: 50px;
+            margin-bottom: 12px;
+            opacity: 0.5;
+        }
+        footer a {
+            color: #42A5F5;
+            text-decoration: none;
+        }
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 640px) {
+            .hero-logo { width: 130px; height: 130px; }
+            .hero h1 { font-size: 2.2em; letter-spacing: 2px; }
+            .hero .tagline { font-size: 1.1em; }
+            .app-grid { grid-template-columns: 1fr; gap: 30px; }
+            .feature-row { grid-template-columns: repeat(2, 1fr); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HERO -->
+    <section class="hero">
+        <img src="logo.png" alt="Yaazhi Labs" class="hero-logo">
+        <h1>YAAZHI LABS</h1>
+        <div class="hero-divider"></div>
+        <p class="tagline">New Generation Application</p>
+        <p class="subtitle">We build fun, collectible card apps that celebrate entertainment and sports</p>
+    </section>
+
+    <!-- OUR APPS -->
+    <section class="apps">
+        <h2>Our Apps</h2>
+        <div class="app-grid">
+
+            <a class="app-card actortoks" href="https://yaazhilabs.github.io/ActorToks/">
+                <div class="app-icon">🎬</div>
+                <h3>ActorToks</h3>
+                <p class="app-stat">36,000+ actor cards</p>
+                <p class="app-desc">Collect trading cards from Hollywood, Bollywood &amp; international cinema. Stunning card designs with real actor photos, stats, trivia, and YouTube videos.</p>
+                <span class="app-btn">Coming Soon on Google Play</span>
+            </a>
+
+            <a class="app-card sportstoks" href="https://yaazhilabs.github.io/sportstoks/">
+                <div class="app-icon">🏆</div>
+                <h3>SportsToks</h3>
+                <p class="app-stat">91,000+ athlete cards</p>
+                <p class="app-desc">Collect trading cards across 200+ sports worldwide. From cricket to football, basketball to tennis — every sport, every legend, every rising star.</p>
+                <span class="app-btn">Coming Soon on Google Play</span>
+            </a>
+
+        </div>
+    </section>
+
+    <!-- SHARED FEATURES -->
+    <section class="features-strip">
+        <h2>What Makes Our Apps Special</h2>
+        <div class="feature-row">
+            <div class="feature-item">
+                <div class="icon">🃏</div>
+                <h4>Beautiful Cards</h4>
+                <p>Stunning designs with real photos, stats &amp; fun facts</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon">⭐</div>
+                <h4>Rarity Tiers</h4>
+                <p>Common to Legendary — hunt for the rarest cards</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon">🔁</div>
+                <h4>Swipe to Discover</h4>
+                <p>TikTok-style browsing with tap-to-flip card details</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon">🎥</div>
+                <h4>In-App Videos</h4>
+                <p>Watch YouTube videos right on each card</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon">🧠</div>
+                <h4>Trivia Quizzes</h4>
+                <p>Test your knowledge and earn rewards</p>
+            </div>
+            <div class="feature-item">
+                <div class="icon">📷</div>
+                <h4>Works Offline</h4>
+                <p>No internet needed — your full collection, anywhere</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="about">
+        <h2>About Yaazhi Labs</h2>
+        <p>We create fun, beautifully designed mobile apps that turn entertainment and sports into collectible experiences. Our trading card apps combine real data, stunning visuals, and engaging gameplay to bring you closer to the actors and athletes you love.</p>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <img src="logo.png" alt="Yaazhi Labs" class="footer-logo">
+        <p>
+            <a href="https://yaazhilabs.github.io/ActorToks/Privacy-Policy.html">Privacy Policy (ActorToks)</a> &nbsp;|&nbsp;
+            <a href="https://yaazhilabs.github.io/sportstoks/privacy-policy.html">Privacy Policy (SportsToks)</a> &nbsp;|&nbsp;
+            <a href="mailto:yaazhi.labs@gmail.com">Contact Us</a>
+        </p>
+        <p style="margin-top: 10px;">© 2026 Yaazhi Labs. All rights reserved.</p>
+    </footer>
+
+
+
+</body></html>
