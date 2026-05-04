@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ActorToks — Trading cards for world cinema.</title>
+<meta name="description" content="ActorToks is a Pokémon-style trading-card app for actors. 36,000+ cards from Hollywood, Bollywood, and beyond. Built by Yaazhi Labs.">
+<meta name="theme-color" content="#080606">
+
+<meta property="og:title" content="ActorToks — Trading cards for world cinema">
+<meta property="og:description" content="A Pokémon-style trading-card app starring 36,000+ actors. Collect, battle, discover.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yaazhilabs.com/ActorToks/">
+<meta property="og:image" content="https://yaazhilabs.com/actortoks-icon.png">
+
+<link rel="icon" type="image/png" href="../actortoks-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --void: #080606;
+    --void-2: #110D0A;
+    --shadow: rgba(0, 0, 0, 0.4);
+    --line: rgba(201, 160, 99, 0.15);
+    --line-hi: rgba(201, 160, 99, 0.32);
+    --champagne: #C9A063;
+    --champagne-hi: #E8C589;
+    --champagne-deep: #8E6B3C;
+    --ivory: #F5EDD8;
+    --ivory-dim: #BFB39A;
+    --ivory-mute: #7A7060;
+    --rouge: #4A1820;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--void);
+    color: var(--ivory);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
+::selection { background: var(--champagne); color: var(--void); }
+:focus-visible { outline: 2px solid var(--champagne); outline-offset: 3px; }
+::-webkit-scrollbar { width: 10px; height: 8px; }
+::-webkit-scrollbar-track { background: var(--void-2); }
+::-webkit-scrollbar-thumb { background: rgba(201,160,99,0.25); border-radius: 0; }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+
+/* ---------- Glamour backdrop ---------- */
+.bg-stage {
+    position: fixed; inset: 0; z-index: -2;
+    background:
+        radial-gradient(60% 40% at 50% 0%, rgba(201, 160, 99, 0.15), transparent 60%),
+        radial-gradient(50% 50% at 80% 100%, rgba(74, 24, 32, 0.25), transparent 60%),
+        radial-gradient(40% 30% at 20% 80%, rgba(201, 160, 99, 0.06), transparent 60%);
+}
+
+/* Gold dust sparkles */
+.dust {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    background-image:
+        radial-gradient(1px 1px at 24% 18%, rgba(201,160,99,0.45), transparent),
+        radial-gradient(1px 1px at 67% 32%, rgba(232,197,137,0.35), transparent),
+        radial-gradient(1px 1px at 12% 64%, rgba(201,160,99,0.30), transparent),
+        radial-gradient(1px 1px at 88% 76%, rgba(232,197,137,0.40), transparent),
+        radial-gradient(1px 1px at 45% 88%, rgba(201,160,99,0.25), transparent),
+        radial-gradient(1px 1px at 78% 12%, rgba(232,197,137,0.45), transparent),
+        radial-gradient(1px 1px at 32% 44%, rgba(201,160,99,0.30), transparent),
+        radial-gradient(1px 1px at 56% 70%, rgba(232,197,137,0.35), transparent);
+    animation: shimmer 16s ease-in-out infinite alternate;
+}
+@keyframes shimmer { 0% { opacity: 0.6; } 100% { opacity: 1; } }
+
+.film-grain {
+    position: fixed; inset: 0; z-index: -1; pointer-events: none;
+    opacity: 0.04; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/></svg>");
+}
+
+/* Art Deco border ornaments — reusable */
+.ornament {
+    display: flex; align-items: center; justify-content: center;
+    gap: 16px;
+    color: var(--champagne);
+    margin: 32px 0;
+}
+.ornament::before, .ornament::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--champagne), transparent);
+    max-width: 240px;
+}
+.ornament .glyph {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    color: var(--champagne);
+    font-style: italic;
+}
+
+/* ---------- Nav ---------- */
+nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    background: rgba(8, 6, 6, 0.65);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+}
+nav.scrolled { border-bottom-color: var(--line); background: rgba(8, 6, 6, 0.88); }
+.nav-inner {
+    max-width: 1320px; margin: 0 auto;
+    padding: 20px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.nav-brand { display: flex; align-items: center; gap: 14px; }
+.nav-brand img { width: 30px; height: 30px; border-radius: 8px; }
+.nav-brand span {
+    font-family: 'Bodoni Moda', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--ivory);
+    letter-spacing: 0.005em;
+}
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+    font-family: 'Inter', sans-serif;
+    color: var(--ivory-dim);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+    transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--champagne); }
+.nav-cta {
+    padding: 10px 18px;
+    border: 1px solid var(--champagne);
+    color: var(--champagne) !important;
+    transition: background 0.25s, color 0.25s;
+}
+.nav-cta:hover { background: var(--champagne); color: var(--void) !important; }
+@media (max-width: 640px) { .nav-links { gap: 18px; } .nav-links a:not(.nav-cta) { display: none; } }
+
+/* ---------- Hero ---------- */
+.hero {
+    padding: 80px 32px 100px;
+    max-width: 1100px;
+    margin: 0 auto;
+    text-align: center;
+    position: relative;
+}
+.hero-eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--champagne);
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    margin-bottom: 28px;
+    display: inline-block;
+}
+.app-icon-grand {
+    width: 130px; height: 130px;
+    border-radius: 30px;
+    overflow: hidden;
+    margin: 0 auto 40px;
+    box-shadow: 0 30px 80px rgba(201, 160, 99, 0.25), 0 0 0 1px var(--line-hi);
+    position: relative;
+}
+.app-icon-grand::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    border-radius: inherit;
+    background: linear-gradient(135deg, var(--champagne), transparent 40%, transparent 60%, var(--champagne));
+    z-index: -1;
+}
+.app-icon-grand img { width: 100%; height: 100%; }
+
+.hero h1 {
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 500;
+    font-size: clamp(56px, 9.5vw, 132px);
+    line-height: 0.92;
+    letter-spacing: -0.025em;
+    color: var(--ivory);
+    margin-bottom: 32px;
+    font-variation-settings: "opsz" 96;
+}
+.hero h1 em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-weight: 500;
+    color: var(--champagne);
+    font-size: 1.08em;
+    letter-spacing: -0.01em;
+}
+.hero .lede {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: clamp(18px, 2vw, 24px);
+    color: var(--ivory-dim);
+    max-width: 620px;
+    margin: 0 auto 48px;
+    line-height: 1.5;
+    font-weight: 400;
+}
+.hero-ctas {
+    display: flex; gap: 16px;
+    justify-content: center; flex-wrap: wrap;
+}
+.btn {
+    display: inline-flex; align-items: center; gap: 12px;
+    padding: 16px 32px;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500; font-size: 12px;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+.btn-primary {
+    background: var(--champagne);
+    color: var(--void);
+    box-shadow: 0 14px 40px rgba(201, 160, 99, 0.30);
+}
+.btn-primary:hover { background: var(--champagne-hi); transform: translateY(-2px); box-shadow: 0 18px 48px rgba(201, 160, 99, 0.45); }
+.btn-secondary {
+    background: transparent;
+    color: var(--ivory);
+    border-color: var(--line-hi);
+}
+.btn-secondary:hover { border-color: var(--champagne); color: var(--champagne); }
+
+/* ---------- Marquee stat band ---------- */
+.marquee-band {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 50px 32px;
+    background:
+        linear-gradient(180deg, transparent, rgba(201, 160, 99, 0.025), transparent);
+    margin-top: 60px;
+}
+.marquee-inner {
+    max-width: 1320px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+}
+@media (max-width: 720px) { .marquee-inner { grid-template-columns: 1fr; gap: 36px; } }
+.stat-glam {
+    text-align: center;
+    position: relative;
+}
+.stat-glam:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0; top: 50%;
+    transform: translateY(-50%);
+    width: 1px; height: 60%;
+    background: var(--line);
+}
+@media (max-width: 720px) { .stat-glam::after { display: none !important; } }
+.stat-glam .num {
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 500;
+    font-size: clamp(48px, 6vw, 84px);
+    color: var(--champagne);
+    line-height: 1;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+.stat-glam .label {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--ivory-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+}
+
+/* ---------- Section common ---------- */
+section { position: relative; }
+.container { max-width: 1320px; margin: 0 auto; padding: 0 32px; }
+.section-head {
+    max-width: 800px; margin: 0 auto 60px;
+    text-align: center;
+}
+.section-head .eyebrow {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--champagne);
+    text-transform: uppercase;
+    letter-spacing: 0.32em;
+    margin-bottom: 24px;
+    display: block;
+}
+.section-head h2 {
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 500;
+    font-size: clamp(44px, 6vw, 88px);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+}
+.section-head h2 em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--champagne);
+    font-size: 1.05em;
+}
+.section-head p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 19px;
+    color: var(--ivory-dim);
+    line-height: 1.55;
+    margin-top: 12px;
+}
+
+/* ---------- Showreel ---------- */
+.showreel { padding: 100px 0; }
+.showreel-track {
+    display: flex; gap: 32px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0 32px 40px;
+    -webkit-overflow-scrolling: touch;
+}
+.phone {
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    position: relative;
+    width: 240px;
+    aspect-ratio: 9 / 19.5;
+    border-radius: 38px;
+    background: linear-gradient(160deg, #1F1814, #0A0807);
+    padding: 9px;
+    box-shadow:
+        0 40px 100px rgba(0,0,0,0.7),
+        0 0 0 1px var(--line-hi),
+        inset 0 0 0 1.5px rgba(201,160,99,0.06);
+}
+.phone::before {
+    content: '';
+    position: absolute;
+    top: 12px; left: 50%;
+    transform: translateX(-50%);
+    width: 78px; height: 18px;
+    background: #000;
+    border-radius: 100px; z-index: 3;
+}
+.phone-screen {
+    position: relative;
+    width: 100%; height: 100%;
+    border-radius: 30px;
+    overflow: hidden;
+    background: #000;
+}
+.phone-screen img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: center top;
+}
+
+/* ---------- Features (Roman numerals) ---------- */
+.features { padding: 100px 0 80px; }
+.feature-list {
+    max-width: 980px; margin: 0 auto;
+}
+.feature-item {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 40px;
+    padding: 36px 0;
+    border-top: 1px solid var(--line);
+    align-items: start;
+    transition: padding 0.3s ease;
+}
+.feature-item:last-child { border-bottom: 1px solid var(--line); }
+.feature-item:hover { padding-left: 16px; }
+@media (max-width: 600px) {
+    .feature-item { grid-template-columns: 1fr; gap: 14px; padding-left: 0 !important; }
+}
+.feature-num {
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 56px;
+    color: var(--champagne);
+    line-height: 1;
+}
+.feature-content h4 {
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 500;
+    font-size: 32px;
+    margin-bottom: 12px;
+    letter-spacing: -0.01em;
+    line-height: 1.1;
+    color: var(--ivory);
+}
+.feature-content p {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    color: var(--ivory-dim);
+    line-height: 1.5;
+    max-width: 64ch;
+    font-style: italic;
+}
+
+/* ---------- Marquee stars ---------- */
+.stars-band {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    padding: 28px 0;
+    overflow: hidden;
+    background: var(--void-2);
+    margin: 60px 0;
+}
+.stars-inner {
+    display: flex;
+    gap: 80px;
+    animation: starsFlow 50s linear infinite;
+    width: max-content;
+    font-family: 'Bodoni Moda', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: clamp(28px, 3.5vw, 48px);
+    color: var(--ivory);
+    letter-spacing: -0.005em;
+}
+.stars-inner span {
+    display: flex; align-items: center; gap: 80px; white-space: nowrap;
+}
+.stars-inner span::after {
+    content: '★';
+    color: var(--champagne);
+    font-size: 0.5em;
+    font-style: normal;
+}
+@keyframes starsFlow {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+/* ---------- CTA ---------- */
+.cta {
+    padding: 120px 32px 100px;
+    text-align: center;
+    border-top: 1px solid var(--line);
+    margin-top: 60px;
+    position: relative;
+}
+.cta::before {
+    content: '';
+    position: absolute;
+    top: -2px; left: 50%;
+    transform: translateX(-50%);
+    width: 80px; height: 4px;
+    background: var(--champagne);
+}
+.cta h2 {
+    font-family: 'Bodoni Moda', serif;
+    font-weight: 500;
+    font-size: clamp(48px, 6vw, 88px);
+    letter-spacing: -0.02em;
+    line-height: 1;
+    margin-bottom: 22px;
+}
+.cta h2 em {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--champagne);
+    font-size: 1.05em;
+}
+.cta p {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    color: var(--ivory-dim);
+    font-size: 21px;
+    margin-bottom: 36px;
+    max-width: 560px;
+    margin-left: auto; margin-right: auto;
+}
+
+/* ---------- Footer ---------- */
+footer {
+    padding: 60px 32px 36px;
+    background: var(--void-2);
+    border-top: 1px solid var(--line);
+}
+.footer-inner {
+    max-width: 1320px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 48px; margin-bottom: 36px;
+}
+@media (max-width: 720px) { .footer-inner { grid-template-columns: 1fr; gap: 32px; } }
+.footer-brand img { width: 36px; height: 36px; border-radius: 9px; margin-bottom: 14px; }
+.footer-brand h3 {
+    font-family: 'Bodoni Moda', serif;
+    font-style: italic;
+    font-weight: 500;
+    font-size: 22px;
+    color: var(--ivory);
+    margin-bottom: 10px;
+}
+.footer-brand p { font-size: 13px; color: var(--ivory-mute); line-height: 1.65; max-width: 30ch; }
+.footer-col h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 11px; font-weight: 500;
+    color: var(--champagne);
+    text-transform: uppercase; letter-spacing: 0.22em;
+    margin-bottom: 16px;
+}
+.footer-col a, .footer-col p {
+    display: block; font-size: 13px;
+    color: var(--ivory-dim); margin-bottom: 6px;
+    transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--champagne); }
+.footer-business { font-size: 12px; line-height: 1.7; }
+.footer-business strong { color: var(--ivory); font-weight: 600; }
+.footer-bottom {
+    max-width: 1320px; margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+    font-family: 'Inter', sans-serif;
+    font-size: 11px;
+    color: var(--ivory-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.22em;
+}
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.8s, transform 0.8s; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+    .dust, .stars-inner { animation: none; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+}
+</style>
+</head>
+<body>
+<div class="bg-stage"></div>
+<div class="dust"></div>
+<div class="film-grain"></div>
+
+<nav id="nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="../">
+            <img src="../logo.png" alt="">
+            <span>Yaazhi Labs</span>
+        </a>
+        <div class="nav-links">
+            <a href="../">Home</a>
+            <a href="../sportstoks/">SportsToks</a>
+            <a class="nav-cta" href="mailto:admin@yaazhilabs.com">Contact</a>
+        </div>
+    </div>
+</nav>
+
+<section class="hero">
+    <span class="hero-eyebrow">— A Yaazhi Labs production —</span>
+    <div class="app-icon-grand">
+        <img src="../actortoks-icon.png" alt="ActorToks">
+    </div>
+    <h1>The world's <em>actors</em>,<br>collected as cards.</h1>
+    <p class="lede">A Pokémon-style trading-card app for cinema. Thirty-six thousand stars from Hollywood, Bollywood, and beyond — collected, learned, and <em>celebrated</em>.</p>
+    <div class="hero-ctas">
+        <a class="btn btn-primary" href="#features">Coming soon · Google Play</a>
+        <a class="btn btn-secondary" href="privacy-policy.html">Privacy</a>
+    </div>
+    <div class="ornament"><span class="glyph">❦</span></div>
+</section>
+
+<div class="marquee-band">
+    <div class="marquee-inner">
+        <div class="stat-glam reveal">
+            <div class="num">36,000</div>
+            <div class="label">Actor cards</div>
+        </div>
+        <div class="stat-glam reveal">
+            <div class="num">100+</div>
+            <div class="label">Countries of cinema</div>
+        </div>
+        <div class="stat-glam reveal">
+            <div class="num">∞</div>
+            <div class="label">Works offline</div>
+        </div>
+    </div>
+</div>
+
+<section class="showreel">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">— Showreel —</span>
+            <h2>Real <em>cards</em>. Real cinema.</h2>
+            <p>Each card is hand-tuned with biography, signature roles, on-set trivia, and YouTube clips.</p>
+        </div>
+    </div>
+    <div class="showreel-track">
+        <div class="phone"><div class="phone-screen"><img src="screenshots/raw_card_front.png" alt="Card front" loading="lazy"></div></div>
+        <div class="phone"><div class="phone-screen"><img src="screenshots/raw_card_back.png" alt="Card back" loading="lazy"></div></div>
+        <div class="phone"><div class="phone-screen"><img src="screenshots/raw_card_swipe.png" alt="Swipe to discover" loading="lazy"></div></div>
+        <div class="phone"><div class="phone-screen"><img src="screenshots/raw_battle.png" alt="Actor battle" loading="lazy"></div></div>
+        <div class="phone"><div class="phone-screen"><img src="screenshots/raw_battle_comparison.png" alt="Comparison" loading="lazy"></div></div>
+        <div class="phone"><div class="phone-screen"><img src="screenshots/raw_battle_result.png" alt="Battle result" loading="lazy"></div></div>
+        <div class="phone"><div class="phone-screen"><img src="screenshots/raw_fame.png" alt="Walk of Fame" loading="lazy"></div></div>
+        <div class="phone"><div class="phone-screen"><img src="screenshots/raw_quiz.png" alt="Trivia quiz" loading="lazy"></div></div>
+    </div>
+</section>
+
+<div class="stars-band">
+    <div class="stars-inner">
+        <span>Drama</span><span>Romance</span><span>Comedy</span><span>Thriller</span><span>Action</span><span>Noir</span><span>Fantasy</span><span>Musical</span><span>Western</span><span>Sci-Fi</span><span>Period</span><span>Animation</span>
+        <span>Drama</span><span>Romance</span><span>Comedy</span><span>Thriller</span><span>Action</span><span>Noir</span><span>Fantasy</span><span>Musical</span><span>Western</span><span>Sci-Fi</span><span>Period</span><span>Animation</span>
+    </div>
+</div>
+
+<section class="features" id="features">
+    <div class="container">
+        <div class="section-head reveal">
+            <span class="eyebrow">— Featuring —</span>
+            <h2>Designed for <em>devotion</em>.</h2>
+        </div>
+        <div class="feature-list">
+            <div class="feature-item reveal">
+                <div class="feature-num">I</div>
+                <div class="feature-content">
+                    <h4>Pokémon-style collecting</h4>
+                    <p>Common, Rare, Epic, Legendary — every actor a card, every card a tier. Hunt for the rarest, complete sets, build your private hall of stars.</p>
+                </div>
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-num">II</div>
+                <div class="feature-content">
+                    <h4>The Battle</h4>
+                    <p>Pit two actors head-to-head — awards, hits, accolades. Every comparison reveals something even cinephiles didn't know.</p>
+                </div>
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-num">III</div>
+                <div class="feature-content">
+                    <h4>Cards that breathe</h4>
+                    <p>Real photography. Biography in tight prose. Signature roles, on-set trivia, and YouTube clips embedded directly. Tap any card to flip and learn.</p>
+                </div>
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-num">IV</div>
+                <div class="feature-content">
+                    <h4>The Walk of Fame</h4>
+                    <p>Every actor you collect is added to your personal hall — sortable, searchable, browsable. Curate the cinema you love.</p>
+                </div>
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-num">V</div>
+                <div class="feature-content">
+                    <h4>Trivia quizzes</h4>
+                    <p>Show what you know. Earn rewards. Discover actors you'd never have searched for.</p>
+                </div>
+            </div>
+            <div class="feature-item reveal">
+                <div class="feature-num">VI</div>
+                <div class="feature-content">
+                    <h4>The privilege of offline</h4>
+                    <p>Cards live on your device. No internet needed once installed. Your full collection comes with you, anywhere.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cta">
+    <div class="container">
+        <div class="ornament"><span class="glyph">— FIN —</span></div>
+        <h2>Coming <em>soon</em>.</h2>
+        <p>ActorToks is in final review. Drop us a line to be notified at launch.</p>
+        <a class="btn btn-primary" href="mailto:admin@yaazhilabs.com?subject=Notify%20me%20when%20ActorToks%20launches">Notify me at launch</a>
+    </div>
+</section>
+
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="../logo.png" alt="">
+            <h3>Yaazhi Labs</h3>
+            <p>Beautifully crafted, collectible card apps. Made with care in Australia.</p>
+        </div>
+        <div class="footer-col">
+            <h4>ActorToks</h4>
+            <a href="#features">Features</a>
+            <a href="privacy-policy.html">Privacy policy</a>
+            <a href="../sportstoks/">Try SportsToks</a>
+        </div>
+        <div class="footer-col">
+            <h4>Studio</h4>
+            <p class="footer-business">
+                <strong>R Jagadeesh &amp; P Lepcha</strong><br>
+                Family Partnership<br>
+                Ashwood VIC 3147, Australia<br>
+                ABN 61 662 486 689
+            </p>
+            <a href="mailto:admin@yaazhilabs.com" style="margin-top: 8px;">admin@yaazhilabs.com</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 YAAZHI LABS</span>
+        <span>BUILT IN MELBOURNE</span>
+    </div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+if (nav) {
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 16);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+}
+const io = new IntersectionObserver(es => es.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>

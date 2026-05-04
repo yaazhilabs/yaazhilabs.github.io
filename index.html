@@ -1,357 +1,689 @@
-<html lang="en"><head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Yaazhi Labs - New Generation Application</title>
-    <meta name="description" content="Yaazhi Labs builds fun, collectible trading card apps for actors and sports. Discover ActorToks and SportsToks.">
-    <link rel="icon" type="image/png" href="https://github.com/yaazhilabs/yaazhilabs.github.io/blob/main/logo.png">
-    <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yaazhi Labs — A small studio crafting collectible card apps.</title>
+<meta name="description" content="Yaazhi Labs is a small studio building beautifully designed collectible trading card apps for actors and athletes.">
+<meta name="theme-color" content="#F4F1EA">
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #0A0A14;
-            color: #E0E0E0;
-            line-height: 1.6;
-        }
+<meta property="og:title" content="Yaazhi Labs — A small studio crafting collectible card apps.">
+<meta property="og:description" content="Beautifully crafted trading-card apps for actors and athletes.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://yaazhilabs.com">
+<meta property="og:image" content="https://yaazhilabs.com/YaazhiLabs-small.png">
+<meta name="twitter:card" content="summary_large_image">
 
-        /* ===== HERO ===== */
-        .hero {
-            text-align: center;
-            padding: 70px 20px 60px;
-            background: linear-gradient(135deg, #0A0A14 0%, #1A1A2E 50%, #16213E 100%);
-            position: relative;
-            overflow: hidden;
-        }
-        .hero::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 50% 40%, rgba(212, 168, 67, 0.06) 0%, transparent 50%);
-            pointer-events: none;
-        }
-        .hero-logo {
-            width: 180px;
-            height: 180px;
-            margin-bottom: 20px;
-            position: relative;
-            filter: drop-shadow(0 4px 20px rgba(212, 168, 67, 0.3));
-        }
-        .hero h1 {
-            font-size: 3em;
-            color: #FFFFFF;
-            margin-bottom: 8px;
-            letter-spacing: 3px;
-            position: relative;
-        }
-        .hero-divider {
-            width: 80px;
-            height: 2px;
-            background: linear-gradient(90deg, transparent, #D4A843, transparent);
-            margin: 0 auto 20px;
-        }
-        .hero .tagline {
-            font-size: 1.3em;
-            color: #D4A843;
-            margin-bottom: 10px;
-            letter-spacing: 2px;
-        }
-        .hero .subtitle {
-            font-size: 1.1em;
-            color: #888888;
-            margin-bottom: 50px;
-        }
+<link rel="icon" type="image/png" href="logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,300..800&family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-        /* ===== APP CARDS ===== */
-        .apps {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 0 20px 80px;
-        }
-        .apps h2 {
-            text-align: center;
-            font-size: 2em;
-            color: #FFFFFF;
-            margin-bottom: 50px;
-        }
-        .app-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 40px;
-        }
-        .app-card {
-            border-radius: 16px;
-            padding: 40px 30px;
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            text-decoration: none;
-            display: block;
-            position: relative;
-            overflow: hidden;
-        }
-        .app-card:hover {
-            transform: translateY(-6px);
-        }
+<style>
+:root {
+    --paper: #F4F1EA;
+    --paper-2: #EDE8DC;
+    --ink: #0E0E10;
+    --ink-2: #2B2B2E;
+    --ink-3: #5C5C60;
+    --ink-mute: #8A8A8E;
+    --line: #D9D3C2;
+    --line-2: #C4BDA8;
+    --tang: #FF4D2E;
+    --gold: #B8842E;
+    --moss: #1F4D3A;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+    background: var(--paper);
+    color: var(--ink);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    font-feature-settings: "ss01", "cv11";
+}
+::selection { background: var(--ink); color: var(--paper); }
+:focus-visible { outline: 2px solid var(--tang); outline-offset: 3px; border-radius: 4px; }
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 8px; }
 
-        /* ActorToks card */
-        .app-card.actortoks {
-            background: linear-gradient(135deg, #1A1A2E 0%, #1E1500 100%);
-            border: 1px solid #3D2E00;
-            box-shadow: 0 4px 30px rgba(255, 215, 0, 0.08);
-        }
-        .app-card.actortoks:hover {
-            box-shadow: 0 8px 40px rgba(255, 215, 0, 0.15);
-        }
-        .app-card.actortoks .app-icon { font-size: 3em; margin-bottom: 20px; }
-        .app-card.actortoks h3 {
-            font-size: 1.8em;
-            color: #FFD700;
-            margin-bottom: 8px;
-        }
-        .app-card.actortoks .app-stat {
-            color: #FFA500;
-            font-size: 1.05em;
-            margin-bottom: 16px;
-        }
-        .app-card.actortoks .app-desc {
-            color: #AAAAAA;
-            font-size: 0.95em;
-            margin-bottom: 24px;
-            line-height: 1.7;
-        }
-        .app-card.actortoks .app-btn {
-            display: inline-block;
-            background: #FFD700;
-            color: #0A0A14;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.95em;
-            text-decoration: none;
-        }
-        .app-card.actortoks .app-btn:hover {
-            background: #FFA500;
-        }
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
 
-        /* SportsToks card */
-        .app-card.sportstoks {
-            background: linear-gradient(135deg, #1A1A2E 0%, #1A0E00 100%);
-            border: 1px solid #3D1E00;
-            box-shadow: 0 4px 30px rgba(255, 107, 0, 0.08);
-        }
-        .app-card.sportstoks:hover {
-            box-shadow: 0 8px 40px rgba(255, 107, 0, 0.15);
-        }
-        .app-card.sportstoks .app-icon { font-size: 3em; margin-bottom: 20px; }
-        .app-card.sportstoks h3 {
-            font-size: 1.8em;
-            color: #FF6B00;
-            margin-bottom: 8px;
-        }
-        .app-card.sportstoks .app-stat {
-            color: #FF8C3A;
-            font-size: 1.05em;
-            margin-bottom: 16px;
-        }
-        .app-card.sportstoks .app-desc {
-            color: #AAAAAA;
-            font-size: 0.95em;
-            margin-bottom: 24px;
-            line-height: 1.7;
-        }
-        .app-card.sportstoks .app-btn {
-            display: inline-block;
-            background: #FF6B00;
-            color: #FFFFFF;
-            padding: 12px 28px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.95em;
-            text-decoration: none;
-        }
-        .app-card.sportstoks .app-btn:hover {
-            background: #FF8C3A;
-        }
+/* Subtle paper grain */
+body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: -1;
+    pointer-events: none; opacity: 0.05;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/></svg>");
+    mix-blend-mode: multiply;
+}
 
-        /* ===== FEATURES STRIP ===== */
-        .features-strip {
-            max-width: 960px;
-            margin: 0 auto;
-            padding: 0 20px 80px;
-        }
-        .features-strip h2 {
-            text-align: center;
-            font-size: 2em;
-            color: #FFFFFF;
-            margin-bottom: 40px;
-        }
-        .feature-row {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 24px;
-        }
-        .feature-item {
-            text-align: center;
-            padding: 24px 16px;
-            background: #12121E;
-            border-radius: 12px;
-            border: 1px solid #1E1E30;
-        }
-        .feature-item .icon {
-            font-size: 2em;
-            margin-bottom: 12px;
-        }
-        .feature-item h4 {
-            color: #DDDDDD;
-            font-size: 1em;
-            margin-bottom: 6px;
-        }
-        .feature-item p {
-            color: #888888;
-            font-size: 0.85em;
-        }
+/* Cursor blob */
+.cursor-blob {
+    position: fixed;
+    width: 460px; height: 460px;
+    border-radius: 50%;
+    pointer-events: none; z-index: 0;
+    background: radial-gradient(circle, rgba(255, 77, 46, 0.10), transparent 60%);
+    transform: translate(-50%, -50%);
+    will-change: transform;
+    mix-blend-mode: multiply;
+}
 
-        /* ===== ABOUT ===== */
-        .about {
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 60px 20px;
-            text-align: center;
-        }
-        .about h2 {
-            font-size: 2em;
-            color: #FFFFFF;
-            margin-bottom: 20px;
-        }
-        .about p {
-            color: #BBBBBB;
-            font-size: 1.1em;
-            line-height: 1.8;
-        }
+/* ---------- Nav ---------- */
+nav {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(16px) saturate(160%);
+    -webkit-backdrop-filter: blur(16px) saturate(160%);
+    background: rgba(244, 241, 234, 0.78);
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, background 0.3s;
+}
+nav.scrolled {
+    border-bottom-color: var(--line);
+    background: rgba(244, 241, 234, 0.92);
+}
+.nav-inner {
+    max-width: 1280px; margin: 0 auto;
+    padding: 20px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+}
+.nav-brand { display: flex; align-items: center; gap: 12px; }
+.nav-brand img { width: 32px; height: 32px; border-radius: 8px; }
+.nav-brand span {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 600; font-size: 18px;
+    letter-spacing: -0.01em;
+}
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-links a {
+    color: var(--ink-2); font-size: 14px; font-weight: 500;
+    transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--ink); }
+.nav-cta {
+    padding: 9px 16px;
+    border: 1px solid var(--ink);
+    border-radius: 100px;
+    color: var(--ink) !important;
+    font-weight: 600;
+    transition: background 0.2s, color 0.2s;
+}
+.nav-cta:hover { background: var(--ink); color: var(--paper) !important; }
+@media (max-width: 640px) {
+    .nav-links { gap: 16px; }
+    .nav-links a:not(.nav-cta) { display: none; }
+}
 
-        /* ===== FOOTER ===== */
-        footer {
-            text-align: center;
-            padding: 40px 20px;
-            border-top: 1px solid #1A1A2E;
-            color: #666;
-            font-size: 0.9em;
-        }
-        footer .footer-logo {
-            width: 50px;
-            height: 50px;
-            margin-bottom: 12px;
-            opacity: 0.5;
-        }
-        footer a {
-            color: #42A5F5;
-            text-decoration: none;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
+/* ---------- Hero ---------- */
+.hero {
+    position: relative;
+    padding: 120px 32px 80px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+.hero-tag {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 36px;
+    padding: 6px 12px;
+    border: 1px solid var(--line);
+    border-radius: 100px;
+    background: rgba(255,255,255,0.4);
+}
+.hero-tag::before {
+    content: ''; width: 6px; height: 6px;
+    border-radius: 50%; background: var(--tang);
+    box-shadow: 0 0 10px var(--tang);
+    animation: pulse 2s ease-in-out infinite;
+}
+@keyframes pulse { 50% { opacity: 0.4; transform: scale(0.7); } }
 
-        /* ===== RESPONSIVE ===== */
-        @media (max-width: 640px) {
-            .hero-logo { width: 130px; height: 130px; }
-            .hero h1 { font-size: 2.2em; letter-spacing: 2px; }
-            .hero .tagline { font-size: 1.1em; }
-            .app-grid { grid-template-columns: 1fr; gap: 30px; }
-            .feature-row { grid-template-columns: repeat(2, 1fr); }
-        }
-    </style>
+.hero h1 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 600;
+    font-variation-settings: "wdth" 80, "opsz" 96;
+    font-size: clamp(56px, 11vw, 168px);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    color: var(--ink);
+    margin-bottom: 32px;
+    max-width: 12ch;
+}
+.hero h1 .accent {
+    color: var(--tang);
+    font-style: italic;
+    font-weight: 500;
+}
+.hero h1 .small {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 0.5em;
+    color: var(--ink-3);
+    font-weight: 400;
+    display: block;
+    margin-top: 0.2em;
+    max-width: 18ch;
+    line-height: 1.05;
+    letter-spacing: -0.02em;
+}
+.hero p.lede {
+    font-size: clamp(16px, 1.4vw, 19px);
+    color: var(--ink-3);
+    max-width: 540px;
+    margin-bottom: 40px;
+    line-height: 1.55;
+}
+.hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; }
+
+.btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 16px 28px;
+    border-radius: 100px;
+    font-family: 'Geist', sans-serif;
+    font-weight: 600; font-size: 15px;
+    letter-spacing: -0.01em;
+    transition: box-shadow 0.25s, transform 0.05s linear, background 0.2s, color 0.2s;
+    border: 1px solid transparent;
+    cursor: pointer; position: relative;
+    will-change: transform;
+}
+.btn-primary {
+    background: var(--ink); color: var(--paper);
+}
+.btn-primary:hover { background: var(--tang); }
+.btn-secondary {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--line-2);
+}
+.btn-secondary:hover { border-color: var(--ink); }
+.btn .arrow { transition: transform 0.2s; }
+.btn:hover .arrow { transform: translateX(3px); }
+
+/* ---------- Apps grid (editorial) ---------- */
+.apps {
+    padding: 60px 32px 120px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+.apps-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+}
+.apps-head h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 500;
+    font-size: clamp(28px, 3vw, 40px);
+    letter-spacing: -0.02em;
+}
+.apps-head .count {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-mute);
+    letter-spacing: 0.12em;
+}
+.app-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+@media (max-width: 760px) { .app-grid { grid-template-columns: 1fr; } }
+
+.app-card {
+    position: relative;
+    display: block;
+    border-radius: 28px;
+    padding: 36px;
+    background: #FFFFFF;
+    border: 1px solid var(--line);
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.4s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s;
+    will-change: transform;
+}
+.app-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--line-2);
+    box-shadow: 0 24px 60px rgba(14, 14, 16, 0.08);
+}
+.app-card.actortoks { --accent: #6B1E2C; --accent-soft: #FAF0F2; }
+.app-card.sportstoks { --accent: #C9410D; --accent-soft: #FFF1E8; }
+
+.app-card .app-meta {
+    display: flex; gap: 20px; align-items: center;
+    margin-bottom: 28px;
+}
+.app-card .app-icon {
+    width: 72px; height: 72px;
+    border-radius: 18px;
+    overflow: hidden;
+    flex-shrink: 0;
+    box-shadow: 0 12px 32px rgba(14, 14, 16, 0.12);
+    border: 1px solid var(--line);
+}
+.app-card .app-icon img { width: 100%; height: 100%; object-fit: cover; }
+.app-card h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 500;
+    font-size: 36px;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+    line-height: 1;
+}
+.app-card .app-tagline {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+}
+.app-card p {
+    color: var(--ink-3);
+    font-size: 16px;
+    line-height: 1.55;
+    margin-bottom: 28px;
+    max-width: 38ch;
+}
+.app-stat-row {
+    display: flex;
+    gap: 32px;
+    padding: 18px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    margin-bottom: 24px;
+}
+.app-stat-row .stat .num {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--ink);
+    line-height: 1;
+}
+.app-stat-row .stat .label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    color: var(--ink-mute);
+    margin-top: 4px;
+}
+.app-card .app-link {
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--accent);
+    font-weight: 600; font-size: 15px;
+}
+.app-card:hover .app-link .arrow { transform: translateX(4px); }
+.app-card .arrow { transition: transform 0.2s; }
+
+.app-card .ribbon {
+    position: absolute;
+    top: 24px; right: 24px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-soft);
+    padding: 5px 10px;
+    border-radius: 100px;
+    border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+}
+
+/* ---------- Pipeline ---------- */
+.pipeline {
+    padding: 0 32px 120px;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+.pipeline-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    margin-bottom: 40px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+}
+.pipeline-head h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 500;
+    font-size: clamp(28px, 3vw, 40px);
+    letter-spacing: -0.02em;
+}
+.pipeline-head .count {
+    font-family: 'Geist Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-mute);
+    letter-spacing: 0.12em;
+}
+.pipeline-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 12px;
+}
+.pipe-card {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: auto auto;
+    column-gap: 14px;
+    align-items: center;
+    padding: 16px;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.5);
+    border: 1px solid var(--line);
+    transition: border-color 0.2s, transform 0.2s, background 0.2s;
+    min-width: 0;
+}
+.pipe-card .pipe-icon { grid-row: 1 / 3; }
+.pipe-card h4 { grid-column: 2; align-self: end; min-width: 0; }
+.pipe-card .pipe-tag { grid-column: 2; align-self: start; min-width: 0; word-break: break-word; }
+.pipe-card:hover {
+    border-color: var(--line-2);
+    background: #FFFFFF;
+    transform: translateY(-2px);
+}
+.pipe-icon {
+    flex-shrink: 0;
+    width: 52px; height: 52px;
+    border-radius: 13px;
+    overflow: hidden;
+    box-shadow: 0 6px 18px rgba(14, 14, 16, 0.10);
+    border: 1px solid var(--line);
+}
+.pipe-icon img { width: 100%; height: 100%; object-fit: cover; }
+.pipe-card h4 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    letter-spacing: -0.01em;
+    margin-bottom: 2px;
+    line-height: 1.1;
+}
+.pipe-tag {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink-mute);
+    line-height: 1.3;
+    display: block;
+}
+.pipeline-note {
+    margin-top: 28px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    text-align: center;
+}
+
+/* ---------- About ---------- */
+.about {
+    padding: 100px 32px 120px;
+    max-width: 880px;
+    margin: 0 auto;
+    border-top: 1px solid var(--line);
+}
+.about .label {
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--ink-mute);
+    margin-bottom: 24px;
+}
+.about h2 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 500;
+    font-size: clamp(32px, 4vw, 56px);
+    letter-spacing: -0.025em;
+    line-height: 1.05;
+    margin-bottom: 28px;
+    max-width: 16ch;
+}
+.about p {
+    font-size: 18px;
+    color: var(--ink-3);
+    line-height: 1.65;
+    max-width: 60ch;
+}
+
+/* ---------- Footer ---------- */
+footer {
+    border-top: 1px solid var(--line);
+    padding: 56px 32px 36px;
+    background: var(--paper-2);
+}
+.footer-inner {
+    max-width: 1280px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.4fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 40px;
+}
+@media (max-width: 720px) { .footer-inner { grid-template-columns: 1fr; gap: 32px; } }
+.footer-brand img { width: 36px; height: 36px; border-radius: 9px; margin-bottom: 14px; }
+.footer-brand h3 {
+    font-family: 'Bricolage Grotesque', sans-serif;
+    font-weight: 600; font-size: 16px;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+}
+.footer-brand p { font-size: 13px; color: var(--ink-mute); line-height: 1.65; max-width: 30ch; }
+.footer-col h4 {
+    font-family: 'Geist Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    color: var(--ink-mute);
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    margin-bottom: 14px;
+}
+.footer-col a, .footer-col p {
+    display: block; font-size: 13px;
+    color: var(--ink-3);
+    margin-bottom: 6px; line-height: 1.65;
+    transition: color 0.2s;
+}
+.footer-col a:hover { color: var(--ink); }
+.footer-business { font-size: 12px; line-height: 1.65; }
+.footer-business strong { color: var(--ink); font-weight: 600; }
+.footer-bottom {
+    max-width: 1280px; margin: 0 auto;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+    font-family: 'Geist Mono', monospace;
+    font-size: 11px;
+    color: var(--ink-mute);
+    letter-spacing: 0.05em;
+}
+
+.reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.7s, transform 0.7s; }
+.reveal.in { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: reduce) {
+    .reveal { opacity: 1; transform: none; transition: none; }
+    html { scroll-behavior: auto; }
+}
+</style>
 </head>
 <body>
+<div class="cursor-blob" id="cursorBlob"></div>
 
-    <!-- HERO -->
-    <section class="hero">
-        <img src="logo.png" alt="Yaazhi Labs" class="hero-logo">
-        <h1>YAAZHI LABS</h1>
-        <div class="hero-divider"></div>
-        <p class="tagline">New Generation Application</p>
-        <p class="subtitle">We build fun, collectible card apps that celebrate entertainment and sports</p>
-    </section>
-
-    <!-- OUR APPS -->
-    <section class="apps">
-        <h2>Our Apps</h2>
-        <div class="app-grid">
-
-            <a class="app-card actortoks" href="https://yaazhilabs.github.io/ActorToks/">
-                <div class="app-icon">🎬</div>
-                <h3>ActorToks</h3>
-                <p class="app-stat">36,000+ actor cards</p>
-                <p class="app-desc">Collect trading cards from Hollywood, Bollywood &amp; international cinema. Stunning card designs with real actor photos, stats, trivia, and YouTube videos.</p>
-                <span class="app-btn">Coming Soon on Google Play</span>
-            </a>
-
-            <a class="app-card sportstoks" href="https://yaazhilabs.github.io/sportstoks/">
-                <div class="app-icon">🏆</div>
-                <h3>SportsToks</h3>
-                <p class="app-stat">91,000+ athlete cards</p>
-                <p class="app-desc">Collect trading cards across 200+ sports worldwide. From cricket to football, basketball to tennis — every sport, every legend, every rising star.</p>
-                <span class="app-btn">Coming Soon on Google Play</span>
-            </a>
-
+<nav id="nav">
+    <div class="nav-inner">
+        <a class="nav-brand" href="#top">
+            <img src="logo.png" alt="">
+            <span>Yaazhi Labs</span>
+        </a>
+        <div class="nav-links">
+            <a href="ActorToks/">ActorToks</a>
+            <a href="sportstoks/">SportsToks</a>
+            <a class="nav-cta" href="mailto:admin@yaazhilabs.com">Get in touch</a>
         </div>
-    </section>
+    </div>
+</nav>
 
-    <!-- SHARED FEATURES -->
-    <section class="features-strip">
-        <h2>What Makes Our Apps Special</h2>
-        <div class="feature-row">
-            <div class="feature-item">
-                <div class="icon">🃏</div>
-                <h4>Beautiful Cards</h4>
-                <p>Stunning designs with real photos, stats &amp; fun facts</p>
+<section id="top" class="hero">
+    <h1>
+        Small studio.<br>
+        <span class="accent">Big cards.</span>
+        <span class="small">Beautifully crafted apps that turn the people you love into collectibles.</span>
+    </h1>
+    <p class="lede">We make collectible trading-card apps for actors and athletes. Every card hand-tuned, every detail considered, every swipe a small moment of delight.</p>
+    <div class="hero-ctas">
+        <a class="btn btn-primary" href="#apps">See our apps <span class="arrow">→</span></a>
+        <a class="btn btn-secondary" href="#about">About the studio</a>
+    </div>
+</section>
+
+<section class="apps" id="apps">
+    <div class="apps-head">
+        <h2>Launching soon.</h2>
+        <span class="count">02 LIVE</span>
+    </div>
+    <div class="app-grid">
+        <a class="app-card actortoks reveal" href="ActorToks/">
+            <span class="ribbon">Coming soon</span>
+            <div class="app-meta">
+                <div class="app-icon"><img src="actortoks-icon.png" alt="ActorToks"></div>
+                <div>
+                    <h3>ActorToks</h3>
+                    <span class="app-tagline">Cinema · Hollywood · Bollywood</span>
+                </div>
             </div>
-            <div class="feature-item">
-                <div class="icon">⭐</div>
-                <h4>Rarity Tiers</h4>
-                <p>Common to Legendary — hunt for the rarest cards</p>
+            <p>Trading cards from world cinema. Real photos, career stats, on-set trivia, and YouTube clips — every card a small story.</p>
+            <div class="app-stat-row">
+                <div class="stat"><div class="num">36K+</div><div class="label">Actor cards</div></div>
+                <div class="stat"><div class="num">100+</div><div class="label">Countries</div></div>
+                <div class="stat"><div class="num">∞</div><div class="label">Offline</div></div>
             </div>
-            <div class="feature-item">
-                <div class="icon">🔁</div>
-                <h4>Swipe to Discover</h4>
-                <p>TikTok-style browsing with tap-to-flip card details</p>
+            <span class="app-link">Visit ActorToks <span class="arrow">→</span></span>
+        </a>
+
+        <a class="app-card sportstoks reveal" href="sportstoks/">
+            <span class="ribbon">Coming soon</span>
+            <div class="app-meta">
+                <div class="app-icon"><img src="sportstoks-icon.png" alt="SportsToks"></div>
+                <div>
+                    <h3>SportsToks</h3>
+                    <span class="app-tagline">Athletes · 200+ Sports</span>
+                </div>
             </div>
-            <div class="feature-item">
-                <div class="icon">🎥</div>
-                <h4>In-App Videos</h4>
-                <p>Watch YouTube videos right on each card</p>
+            <p>Trading cards across 200+ sports worldwide. From cricket to football, basketball to tennis — every legend, every rising star.</p>
+            <div class="app-stat-row">
+                <div class="stat"><div class="num">91K+</div><div class="label">Athletes</div></div>
+                <div class="stat"><div class="num">200+</div><div class="label">Sports</div></div>
+                <div class="stat"><div class="num">∞</div><div class="label">Offline</div></div>
             </div>
-            <div class="feature-item">
-                <div class="icon">🧠</div>
-                <h4>Trivia Quizzes</h4>
-                <p>Test your knowledge and earn rewards</p>
-            </div>
-            <div class="feature-item">
-                <div class="icon">📷</div>
-                <h4>Works Offline</h4>
-                <p>No internet needed — your full collection, anywhere</p>
-            </div>
+            <span class="app-link">Visit SportsToks <span class="arrow">→</span></span>
+        </a>
+    </div>
+</section>
+
+<section class="pipeline" id="pipeline">
+    <div class="pipeline-head">
+        <h2>In the studio.</h2>
+        <span class="count">07 IN DEV</span>
+    </div>
+    <div class="pipeline-grid">
+        <div class="pipe-card reveal">
+            <div class="pipe-icon"><img src="pipeline/mammaltoks.png" alt=""></div>
+            <h4>MammalToks</h4>
+            <span class="pipe-tag">Mammals · Wildlife</span>
         </div>
-    </section>
+        <div class="pipe-card reveal">
+            <div class="pipe-icon"><img src="pipeline/birdtoks.png" alt=""></div>
+            <h4>BirdToks</h4>
+            <span class="pipe-tag">Birds · Wildlife</span>
+        </div>
+        <div class="pipe-card reveal">
+            <div class="pipe-icon"><img src="pipeline/reptiletoks.png" alt=""></div>
+            <h4>ReptileToks</h4>
+            <span class="pipe-tag">Reptiles · Wildlife</span>
+        </div>
+        <div class="pipe-card reveal">
+            <div class="pipe-icon"><img src="pipeline/amphibiantoks.png" alt=""></div>
+            <h4>AmphibianToks</h4>
+            <span class="pipe-tag">Amphibians · Wildlife</span>
+        </div>
+        <div class="pipe-card reveal">
+            <div class="pipe-icon"><img src="pipeline/fishtoks.png" alt=""></div>
+            <h4>FishToks</h4>
+            <span class="pipe-tag">Fish · Wildlife</span>
+        </div>
+        <div class="pipe-card reveal">
+            <div class="pipe-icon"><img src="pipeline/inverttoks.png" alt=""></div>
+            <h4>InvertToks</h4>
+            <span class="pipe-tag">Invertebrates · Wildlife</span>
+        </div>
+        <div class="pipe-card reveal">
+            <div class="pipe-icon"><img src="pipeline/animaltoks.png" alt=""></div>
+            <h4>AnimalToks</h4>
+            <span class="pipe-tag">All animals · Wildlife</span>
+        </div>
+    </div>
+    <p class="pipeline-note">A wildlife-card series. More to come — vehicles, plants, and entertainers in early planning.</p>
+</section>
 
-    <!-- ABOUT -->
-    <section class="about">
-        <h2>About Yaazhi Labs</h2>
-        <p>We create fun, beautifully designed mobile apps that turn entertainment and sports into collectible experiences. Our trading card apps combine real data, stunning visuals, and engaging gameplay to bring you closer to the actors and athletes you love.</p>
-    </section>
+<section class="about" id="about">
+    <div class="label">About</div>
+    <h2>A studio that cares about details most people never notice.</h2>
+    <p>We're a Melbourne-based family partnership building beautifully designed mobile apps. Every card combines real data, hand-tuned visuals, and small moments of delight — so a thirty-second swipe still feels like time well spent. Two apps so far. More on the way.</p>
+</section>
 
-    <!-- FOOTER -->
-    <footer>
-        <img src="logo.png" alt="Yaazhi Labs" class="footer-logo">
-        <p>
-            <a href="https://yaazhilabs.github.io/ActorToks/Privacy-Policy.html">Privacy Policy (ActorToks)</a> &nbsp;|&nbsp;
-            <a href="https://yaazhilabs.github.io/sportstoks/privacy-policy.html">Privacy Policy (SportsToks)</a> &nbsp;|&nbsp;
-            <a href="mailto:yaazhi.labs@gmail.com">Contact Us</a>
-        </p>
-        <p style="margin-top: 10px;">© 2026 Yaazhi Labs. All rights reserved.</p>
-    </footer>
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <img src="logo.png" alt="">
+            <h3>Yaazhi Labs</h3>
+            <p>Beautifully crafted, collectible card apps. Made with care in Australia.</p>
+        </div>
+        <div class="footer-col">
+            <h4>Apps</h4>
+            <a href="ActorToks/">ActorToks</a>
+            <a href="sportstoks/">SportsToks</a>
+        </div>
+        <div class="footer-col">
+            <h4>Studio</h4>
+            <p class="footer-business">
+                <strong>R Jagadeesh &amp; P Lepcha</strong><br>
+                Family Partnership<br>
+                Ashwood VIC 3147, Australia<br>
+                ABN 61 662 486 689
+            </p>
+            <a href="mailto:admin@yaazhilabs.com" style="margin-top: 8px;">admin@yaazhilabs.com</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2026 YAAZHI LABS</span>
+        <span>BUILT IN MELBOURNE</span>
+    </div>
+</footer>
 
-
-
-</body></html>
+<script>
+const nav = document.getElementById('nav');
+if (nav) {
+    const onScroll = () => nav.classList.toggle('scrolled', window.scrollY > 16);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    onScroll();
+}
+const blob = document.getElementById('cursorBlob');
+if (blob && !matchMedia('(pointer: coarse)').matches) {
+    let mx = innerWidth/2, my = innerHeight/2, gx = mx, gy = my;
+    addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function loop(){ gx += (mx-gx)*.08; gy += (my-gy)*.08; blob.style.transform = `translate(${gx}px,${gy}px) translate(-50%,-50%)`; requestAnimationFrame(loop); })();
+} else if (blob) blob.style.display = 'none';
+const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+</body>
+</html>
