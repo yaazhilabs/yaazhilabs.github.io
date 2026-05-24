@@ -602,21 +602,64 @@ footer {
     </div>
 </section>
 
-<section class="rarity">
+<section class="get-app" id="get">
     <div class="container">
         <div class="section-head reveal">
-            <span class="eyebrow">/ Rarity grade</span>
-            <h2>Five <span class="o">tiers</span>.</h2>
+            <span class="eyebrow">/ Get the app</span>
+            <h2>Install <span class="o">SportsToks</span>.</h2>
         </div>
-        <div class="rarity-row">
-            <div class="tier reveal" style="--c:#9CA3AF;"><div class="dot"></div><div class="name">Common</div><div class="pct">~50%</div></div>
-            <div class="tier reveal" style="--c:#10B981;"><div class="dot"></div><div class="name">Uncommon</div><div class="pct">~25%</div></div>
-            <div class="tier reveal" style="--c:#3B82F6;"><div class="dot"></div><div class="name">Rare</div><div class="pct">~15%</div></div>
-            <div class="tier reveal" style="--c:#A855F7;"><div class="dot"></div><div class="name">Ultra Rare</div><div class="pct">~8%</div></div>
-            <div class="tier reveal" style="--c:#FF4D17;"><div class="dot"></div><div class="name">Legendary</div><div class="pct">~2%</div></div>
+        <div class="get-grid">
+            <div class="get-qr reveal">
+                <img src="sportstoks-qr.png" alt="QR code to install SportsToks from Google Play" width="240" height="240">
+                <span class="get-qr-cap">Scan with your phone</span>
+            </div>
+            <div class="get-copy reveal">
+                <p class="get-lede">Free. Works offline. No account required.</p>
+                <a class="btn btn-primary btn-lg" href="https://play.google.com/store/apps/details?id=com.yaazhilabs.sportstoks" target="_blank" rel="noopener">Get it on Google Play ↗</a>
+                <p class="get-url"><code>play.google.com/store/apps/details?id=com.yaazhilabs.sportstoks</code></p>
+            </div>
         </div>
     </div>
 </section>
+
+<style>
+.get-app { padding: 100px 0; }
+.get-grid {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 56px;
+    align-items: center;
+    max-width: 880px;
+    margin: 48px auto 0;
+}
+.get-qr {
+    background: #fff;
+    padding: 18px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px -20px rgba(0,0,0,0.7), 0 0 0 1px var(--line);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.get-qr img { display: block; width: 240px; height: 240px; image-rendering: pixelated; }
+.get-qr-cap {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.06em;
+    color: var(--text-mute);
+    text-transform: uppercase;
+}
+.get-copy { display: flex; flex-direction: column; gap: 18px; align-items: flex-start; }
+.get-lede { font-size: 20px; color: var(--text-dim); }
+.btn-lg { padding: 16px 26px; font-size: 16px; }
+.get-url { font-family: 'JetBrains Mono', monospace; font-size: 12px; color: var(--text-mute); word-break: break-all; }
+.get-url code { background: var(--surface); padding: 4px 8px; border-radius: 6px; border: 1px solid var(--line); }
+@media (max-width: 720px) {
+    .get-grid { grid-template-columns: 1fr; gap: 32px; justify-items: center; }
+    .get-copy { align-items: center; text-align: center; }
+}
+</style>
 
 <div class="sports-ticker">
     <div class="ticker-inner">
