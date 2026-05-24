@@ -371,47 +371,6 @@ section { position: relative; }
     line-height: 1.6;
 }
 
-/* ---------- Rarity tier strip ---------- */
-.rarity { padding: 80px 0; }
-.rarity-row {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 0;
-    border-top: 1px solid var(--line);
-    border-bottom: 1px solid var(--line);
-}
-@media (max-width: 760px) { .rarity-row { grid-template-columns: repeat(2, 1fr); } }
-.tier {
-    padding: 28px 20px;
-    border-right: 1px solid var(--line);
-    text-align: center;
-    transition: background 0.2s;
-}
-.tier:last-child { border-right: none; }
-.tier:hover { background: var(--bg-2); }
-.tier .dot {
-    width: 14px; height: 14px;
-    border-radius: 50%;
-    margin: 0 auto 12px;
-    background: var(--c);
-    box-shadow: 0 0 16px var(--c);
-}
-.tier .name {
-    font-family: 'Anton', sans-serif;
-    font-size: 22px;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--c);
-    margin-bottom: 4px;
-}
-.tier .pct {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 10px;
-    color: var(--text-mute);
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-}
-
 /* ---------- Sports ticker ---------- */
 .sports-ticker {
     border-top: 1px solid var(--line);
